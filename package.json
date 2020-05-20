@@ -1,0 +1,15 @@
+{
+  "name": "nuber-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/blueamethyst/uberclone",
+  "author": "blueamethyst81 <blueamethyst81@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^14.0.4",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.1",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.9.3"
+  }
+}
