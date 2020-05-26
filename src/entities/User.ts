@@ -1,17 +1,38 @@
 import { IsEmail } from 'class-validator';
 import bcrypt from 'bcrypt';
-import { BaseEntity, Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn, BeforeUpdate, BeforeInsert } from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn, BeforeUpdate, BeforeInsert, ManyToOne, OneToMany, Entity } from 'typeorm';
 
+
+import Chat from './Chat';
+import Message from './Message';
+import Verification from './Verification';
+import Ride from './Ride';
 
 const BCRYPT_ROUNDS = 10;
 
+@Entity()
 class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: "text", unique: true })
+    @Column({ type: "text", unique: true, nullable: true })
     @IsEmail()
     email: String;
+
+    @ManyToOne(type => Chat, chat => chat.paticipants)
+    chat: Chat;
+
+    @OneToMany(type => Message, message => message.user)
+    messages: Message[];
+
+    @OneToMany(type => Verification, verification => verification.user)
+    verifications: Verification[];
+
+    @OneToMany(type => Ride, ride => ride.passenger)
+    rideAsPassenger: Ride[];
+
+    @OneToMany(type => Ride, ride => ride.driver)
+    rideAsDriver: Ride[];
 
     @Column({ type: "boolean", default: false })
     verifiedEmail: boolean;
@@ -22,7 +43,7 @@ class User extends BaseEntity {
     @Column({ type: "text" })
     lasttName: string;
 
-    @Column({ type: "int" })
+    @Column({ type: "int", nullable: true })
     age: number;
 
     public comparePassword(password: string): Promise<boolean> {
@@ -42,10 +63,10 @@ class User extends BaseEntity {
         }
     }
 
-    @Column({ type: "text" })
+    @Column({ type: "text", nullable: true })
     password: string;
 
-    @Column({ type: "text" })
+    @Column({ type: "text", nullable: true })
     phoneNumber: string;
 
     @Column({ type: "boolean", default: false })
@@ -72,7 +93,12 @@ class User extends BaseEntity {
     @Column({ type: "double precision", default: 0 })
     lastOrientation: number;
 
-    get fullName(): string { return `${this.firstName} ${this.lasttName}` }
+    get fullName(): string {
+        return `${this.firstName} ${this.lasttName}`
+    }
+
+    @Column({ type: "text", nullable: true })
+    fbId: string;
 
     @CreateDateColumn()
     createAt: string;

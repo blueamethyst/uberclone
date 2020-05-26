@@ -6,7 +6,7 @@
     "linterOptions": {
         "exclude": [
             "config/**/*.js",
-            "node-modules/**/*."
+            "node_modules/**/*."
         ]
     },
     "rules": {
