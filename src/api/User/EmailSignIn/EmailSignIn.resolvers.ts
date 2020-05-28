@@ -15,6 +15,7 @@ const resolvers: Resolvers = {
                     return { ok: false, error: "No User found with that email", token: null }
                 }
 
+
                 const validPassword: boolean = true;
 
                 if (!validPassword) {

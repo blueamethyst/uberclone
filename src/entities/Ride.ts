@@ -1,13 +1,27 @@
-import { Entity, BaseEntity, Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
-import { rideStatus } from 'src/types/types';
-import User from './User';
+import {
+    BaseEntity,
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
+} from "typeorm";
+import { rideStatus } from "../types/types";
+import Chat from "./Chat";
+import User from "./User";
 
 @Entity()
 class Ride extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn() id: number;
 
-    @Column({ type: "text", enum: ["ACCEPTED", "FINISHED", "CANCELED", "REQUESTING", "ONROUTE"] })
+    @Column({
+        type: "text",
+        enum: ["ACCEPTED", "FINISHED", "CANCELED", "REQUESTING", "ONROUTE"],
+        default: "REQUESTING"
+    })
     status: rideStatus;
 
     @Column({ type: "text" })
@@ -28,8 +42,8 @@ class Ride extends BaseEntity {
     @Column({ type: "double precision", default: 0 })
     dropOffLng: number;
 
-    @Column({ type: "text" })
-    price: string;
+    @Column({ type: "double precision", default: 0 })
+    price: number;
 
     @Column({ type: "text" })
     distance: string;
@@ -37,17 +51,27 @@ class Ride extends BaseEntity {
     @Column({ type: "text" })
     duration: string;
 
-    @ManyToOne(type => User, user => user.rideAsPassenger)
+    @Column({ nullable: true })
+    passengerId: number;
+
+    @ManyToOne(type => User, user => user.ridesAsPassenger)
     passenger: User;
 
-    @ManyToOne(type => User, user => user.rideAsDriver)
+    @Column({ nullable: true })
+    driverId: number;
+
+    @ManyToOne(type => User, user => user.ridesAsDriver, { nullable: true })
     driver: User;
 
-    @CreateDateColumn()
-    createAt: string;
+    @Column({ nullable: true })
+    chatId: number;
 
-    @UpdateDateColumn()
-    updateAt: string;
+    @OneToOne(type => Chat, chat => chat.ride, { nullable: true })
+    @JoinColumn()
+    chat: Chat;
+
+    @CreateDateColumn() createdAt: string;
+
+    @UpdateDateColumn() updatedAt: string;
 }
-
 export default Ride;

@@ -23,6 +23,7 @@ type User {
     verifications: [Verification]
     rideAsPassenger: [Ride]
     rideAsDriver : [Ride]
+    places: [Place]
     fbId:String
     
 }

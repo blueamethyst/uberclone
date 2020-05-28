@@ -28,6 +28,9 @@
     "types": "graphql-to-typescript ./src/schema.graphql ./src/types/graph.d.ts"
   },
   "dependencies": {
+    "@types/nodemailer": "^6.4.0",
+    "@types/nodemailer-direct-transport": "^1.0.31",
+    "@types/nodemailer-smtp-transport": "^2.7.4",
     "axios": "^0.19.2",
     "bcrypt": "^4.0.1",
     "class-validator": "^0.12.2",
@@ -41,6 +44,7 @@
     "merge-graphql-schemas": "^1.7.8",
     "mongodb": "^3.5.7",
     "morgan": "^1.10.0",
+    "nodemailer": "^6.4.6",
     "typeorm": "^0.2.25"
   }
 }

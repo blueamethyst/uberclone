@@ -1,4 +1,4 @@
-import { GraphQLServer } from 'graphql-yoga';
+import { GraphQLServer, PubSub } from 'graphql-yoga';
 import cors from 'cors';
 import helmet from 'helmet';
 import logger from 'morgan';
@@ -7,13 +7,22 @@ import decodeJWT from './utils/decodeJWT';
 
 class App {
     public app: GraphQLServer;
+    public pubSub: any;
 
     constructor() {
-        this.app = new GraphQLServer({ schema, context: req=>{
-            return {
-                req: req.request
+        this.pubSub = new PubSub();
+        this.pubSub.ee.setMaxListeners(99);
+
+
+        this.app = new GraphQLServer({
+            schema,
+            context: req => {
+                return {
+                    req: req.request,
+                    pubSub: this.pubSub
+                }
             }
-        } });
+        });
         this.middlewares();
     }
 
@@ -24,10 +33,12 @@ class App {
         this.app.express.use(this.jwt);
     };
 
-    private jwt = async(req, res, next):Promise<void>=>{
+    private jwt = async (req, res, next): Promise<void> => {
         const token = req.get("X-JWT");
-        if( token){
+
+        if (token) {
             const user = await decodeJWT(token);
+
             req.user = user;
         }
         next();
