@@ -1,34 +1,28 @@
-type User { 
-    id: Int!
-    email: String 
-    verifiedEmail: Boolean! 
-    firstName: String! 
-    lastName: String! 
-    age: Int 
-    password: String 
-    phoneNumber: String
-    verifiedPhoneNumber: Boolean! 
-    profilePhoto: String 
-    createAt: String! 
-    updateAt: String 
-    fullName: String 
-    isDriving: Boolean! 
-    isRiding: Boolean! 
-    isTaken: Boolean! 
-    lastLng: Float 
-    lastLat: Float 
-    lastOrientation: Float 
-    chat : Chat
-    message : [Message]
-    verifications: [Verification]
-    rideAsPassenger: [Ride]
-    rideAsDriver : [Ride]
-    places: [Place]
-    fbId:String
-    
-}
-
-
-type Query {
-    user : User
+type User {
+  id: Int!
+  email: String
+  verifiedEmail: Boolean!
+  firstName: String!
+  lastName: String!
+  age: Int
+  password: String
+  phoneNumber: String
+  verifiedPhoneNumber: Boolean!
+  profilePhoto: String
+  fullName: String
+  isDriving: Boolean!
+  isRiding: Boolean!
+  isTaken: Boolean!
+  lastLng: Float
+  lastLat: Float
+  lastOrientation: Float
+  fbId: String
+  messages: [Message]
+  ridesAsPassenger: [Ride]
+  ridesAsDriver: [Ride]
+  chatsAsDriver: [Chat]
+  chatsAsPassenger: [Chat]
+  places: [Place]
+  createdAt: String!
+  updatedAt: String
 }

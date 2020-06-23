@@ -1,12 +1,25 @@
-import { Entity, BaseEntity, CreateDateColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn, } from 'typeorm'
+import {
+    BaseEntity,
+    Column,
+    CreateDateColumn,
+    Entity,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
+} from "typeorm";
 
-import Chat from './Chat';
-import User from './User';
+import Chat from "./Chat";
+import User from "./User";
 
 @Entity()
 class Message extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn() id: number;
+
+    @Column({ type: "text" })
+    text: string;
+
+    @Column({ nullable: true })
+    chatId: number;
 
     @ManyToOne(type => Chat, chat => chat.messages)
     chat: Chat;
@@ -14,12 +27,8 @@ class Message extends BaseEntity {
     @ManyToOne(type => User, user => user.messages)
     user: User;
 
+    @CreateDateColumn() createdAt: string;
 
-    @CreateDateColumn()
-    createAt: string;
-
-    @UpdateDateColumn()
-    updateAt: string;
+    @UpdateDateColumn() updatedAt: string;
 }
-
 export default Message;
